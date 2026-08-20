@@ -16,13 +16,16 @@ export default defineConfig({
                     weights: [400, 500, 600],
                 }),
                 bunny('Inter', {
-                    weights: [400, 500, 600],
+                    weights: [400],
+                    preload: false,
                 }),
                 bunny('Lora', {
-                    weights: [400, 500, 600],
+                    weights: [400],
+                    preload: false,
                 }),
                 bunny('JetBrains Mono', {
-                    weights: [400, 500, 600],
+                    weights: [400],
+                    preload: false,
                 }),
             ],
         }),
