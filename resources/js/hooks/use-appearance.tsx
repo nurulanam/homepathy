@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import { getInitialPreferences, syncPreference } from '@/lib/preferences';
 
 export type ResolvedAppearance = 'light' | 'dark';
 export type Appearance = ResolvedAppearance | 'system';
@@ -75,7 +76,12 @@ export function initializeTheme(): void {
         return;
     }
 
-    if (!localStorage.getItem('appearance')) {
+    const dbPreference = getInitialPreferences()?.theme;
+
+    if (dbPreference) {
+        localStorage.setItem('appearance', dbPreference);
+        setCookie('appearance', dbPreference);
+    } else if (!localStorage.getItem('appearance')) {
         localStorage.setItem('appearance', 'system');
         setCookie('appearance', 'system');
     }
@@ -108,6 +114,7 @@ export function useAppearance(): UseAppearanceReturn {
         setCookie('appearance', mode);
 
         applyTheme(mode);
+        syncPreference('theme', mode);
         notify();
     };
 

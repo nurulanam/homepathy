@@ -15,6 +15,11 @@ declare module '@inertiajs/core' {
             workspace: CurrentWorkspace | null;
             pendingInvitationsCount: number;
             sidebarOpen: boolean;
+            preferences: {
+                theme: string;
+                accent_color: string;
+                font_family: string;
+            } | null;
             [key: string]: unknown;
         };
     }

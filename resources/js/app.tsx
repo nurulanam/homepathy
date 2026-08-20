@@ -1,7 +1,9 @@
 import { createInertiaApp } from '@inertiajs/react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { initializeAccentColor } from '@/hooks/use-accent-color';
 import { initializeTheme } from '@/hooks/use-appearance';
+import { initializeFontFamily } from '@/hooks/use-font-family';
 import AppLayout from '@/layouts/app-layout';
 import AuthLayout from '@/layouts/auth-layout';
 import SettingsLayout from '@/layouts/settings/layout';
@@ -36,5 +38,7 @@ createInertiaApp({
     },
 });
 
-// This will set light / dark mode on load...
+// This will set theme, accent color, and font family on load...
 initializeTheme();
+initializeAccentColor();
+initializeFontFamily();

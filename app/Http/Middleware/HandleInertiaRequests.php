@@ -52,6 +52,11 @@ class HandleInertiaRequests extends Middleware
                 ? WorkspaceMember::where('user_id', $user->id)->whereNull('joined_at')->count()
                 : 0,
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'preferences' => $user ? [
+                'theme' => $user->theme,
+                'accent_color' => $user->accent_color,
+                'font_family' => $user->font_family,
+            ] : null,
         ];
     }
 }

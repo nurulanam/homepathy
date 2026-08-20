@@ -16,7 +16,11 @@ class HandleAppearance
      */
     public function handle(Request $request, Closure $next): Response
     {
-        View::share('appearance', $request->cookie('appearance') ?? 'system');
+        $user = $request->user();
+
+        View::share('appearance', $user?->theme ?? $request->cookie('appearance') ?? 'system');
+        View::share('accentColor', $user?->accent_color ?? $request->cookie('accent_color') ?? 'teal');
+        View::share('fontFamily', $user?->font_family ?? $request->cookie('font_family') ?? 'instrument');
 
         return $next($request);
     }

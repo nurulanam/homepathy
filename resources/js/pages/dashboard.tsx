@@ -1,26 +1,460 @@
-import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { Head, Link, usePage } from '@inertiajs/react';
+import {
+    AlertTriangle,
+    Bone,
+    BookOpen,
+    Brain,
+    CalendarClock,
+    CreditCard,
+    FilePlus2,
+    FileText,
+    Flame,
+    Mail,
+    Pill,
+    ScrollText,
+    Sparkles,
+    UserPlus,
+    Users,
+    UsersRound,
+} from 'lucide-react';
+import type { ComponentType } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dashboard } from '@/routes';
+import { index as showInvitations } from '@/routes/clinic/invitations';
+import { index as showMembers } from '@/routes/clinic/members';
+import { show as showSubscription } from '@/routes/subscription';
+
+const STAT_CARDS: {
+    label: string;
+    value: string;
+    icon: ComponentType<{ className?: string }>;
+    tone: 'primary' | 'blue' | 'amber' | 'rose';
+}[] = [
+    { label: 'Total patients', value: '128', icon: Users, tone: 'primary' },
+    { label: 'Active cases', value: '34', icon: FileText, tone: 'blue' },
+    {
+        label: 'Follow-ups due today',
+        value: '5',
+        icon: CalendarClock,
+        tone: 'amber',
+    },
+    {
+        label: 'Overdue follow-ups',
+        value: '2',
+        icon: AlertTriangle,
+        tone: 'rose',
+    },
+];
+
+const STAT_TONE_CLASSES: Record<string, string> = {
+    primary: 'bg-primary/10 text-primary',
+    blue: 'bg-sky-500/10 text-sky-600 dark:text-sky-400',
+    amber: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+    rose: 'bg-rose-500/10 text-rose-600 dark:text-rose-400',
+};
+
+type FollowUpStatus = 'today' | 'overdue' | 'upcoming' | 'done';
+
+const FOLLOW_UP_PILLS: Record<
+    FollowUpStatus,
+    { label: string; className: string }
+> = {
+    today: { label: 'Today', className: 'bg-primary/10 text-primary' },
+    overdue: {
+        label: 'Overdue',
+        className: 'bg-rose-500/10 text-rose-600 dark:text-rose-400',
+    },
+    upcoming: {
+        label: 'Upcoming',
+        className: 'bg-sky-500/10 text-sky-600 dark:text-sky-400',
+    },
+    done: { label: 'Done', className: 'bg-muted text-muted-foreground' },
+};
+
+const RECENT_CASES: {
+    patient: string;
+    remedy: string;
+    date: string;
+    diagnosis: string;
+    status: FollowUpStatus;
+}[] = [
+    {
+        patient: 'রহিম উদ্দিন',
+        remedy: 'Sulphur 200',
+        date: 'Aug 18, 2026',
+        diagnosis: 'Chronic skin eruption',
+        status: 'today',
+    },
+    {
+        patient: 'ফাতেমা বেগম',
+        remedy: 'Nux Vomica 30',
+        date: 'Aug 15, 2026',
+        diagnosis: 'Acidity, irritability',
+        status: 'overdue',
+    },
+    {
+        patient: 'কামাল হোসেন',
+        remedy: 'Pulsatilla 200',
+        date: 'Aug 20, 2026',
+        diagnosis: 'Recurrent cold',
+        status: 'upcoming',
+    },
+    {
+        patient: 'নাসরিন আক্তার',
+        remedy: 'Arsenicum Album 30',
+        date: 'Aug 10, 2026',
+        diagnosis: 'Anxiety, restlessness',
+        status: 'done',
+    },
+    {
+        patient: 'সালমা খাতুন',
+        remedy: 'Calcarea Carbonica 200',
+        date: 'Aug 9, 2026',
+        diagnosis: 'Delayed milestones',
+        status: 'done',
+    },
+    {
+        patient: 'ইব্রাহিম মিয়া',
+        remedy: 'Lycopodium 1M',
+        date: 'Aug 6, 2026',
+        diagnosis: 'Digestive weakness',
+        status: 'done',
+    },
+];
+
+const TODAY_FOLLOW_UPS = RECENT_CASES.filter(
+    (c) => c.status === 'today' || c.status === 'overdue',
+);
+
+const QUICK_ACTIONS: {
+    label: string;
+    icon: ComponentType<{ className?: string }>;
+}[] = [
+    { label: 'New patient', icon: UserPlus },
+    { label: 'New case', icon: FilePlus2 },
+    { label: 'Repertory', icon: BookOpen },
+    { label: 'Materia medica', icon: Pill },
+];
+
+const ANALYSIS_TOOLS: {
+    label: string;
+    description: string;
+    icon: ComponentType<{ className?: string }>;
+    tint: string;
+}[] = [
+    {
+        label: 'Repertory',
+        description: 'Rubric-based remedy search',
+        icon: BookOpen,
+        tint: 'bg-cyan-500/15 text-cyan-500',
+    },
+    {
+        label: 'Materia medica',
+        description: 'Remedy reference library',
+        icon: Pill,
+        tint: 'bg-violet-500/15 text-violet-400',
+    },
+    {
+        label: 'Miasm analysis',
+        description: 'Psora, sycosis, syphilis',
+        icon: Brain,
+        tint: 'bg-indigo-500/15 text-indigo-400',
+    },
+    {
+        label: 'Temperament',
+        description: 'Constitutional typing',
+        icon: Sparkles,
+        tint: 'bg-amber-500/15 text-amber-500',
+    },
+    {
+        label: 'Acute cases',
+        description: 'Rapid-onset prescribing',
+        icon: Flame,
+        tint: 'bg-rose-500/15 text-rose-500',
+    },
+    {
+        label: 'Organon',
+        description: 'Aphorism reference',
+        icon: ScrollText,
+        tint: 'bg-emerald-500/15 text-emerald-500',
+    },
+    {
+        label: 'Anatomy',
+        description: 'Rubric-linked anatomy',
+        icon: Bone,
+        tint: 'bg-slate-500/15 text-slate-400',
+    },
+];
+
+function getGreeting(hour: number): string {
+    if (hour < 12) {
+        return 'Good morning';
+    }
+
+    if (hour < 17) {
+        return 'Good afternoon';
+    }
+
+    if (hour < 20) {
+        return 'Good evening';
+    }
+
+    return 'Good night';
+}
 
 export default function Dashboard() {
+    const { auth, workspace, pendingInvitationsCount } = usePage().props;
+    const today = new Date();
+    const firstName = auth.user.name.split(' ')[0];
+
     return (
         <>
             <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+            <div className="flex flex-1 flex-col gap-6 p-4">
+                <div className="relative overflow-hidden rounded-xl border bg-linear-to-br from-primary/15 via-primary/5 to-transparent p-6">
+                    <p className="text-sm text-muted-foreground">
+                        {today.toLocaleDateString(undefined, {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                        })}
+                    </p>
+                    <h1 className="mt-1 text-2xl font-semibold">
+                        {getGreeting(today.getHours())}, {firstName}
+                    </h1>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                        {workspace?.type === 'clinic'
+                            ? "Here's what's happening across your clinic today."
+                            : "Here's what's happening in your practice today."}
+                    </p>
                 </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    {STAT_CARDS.map(({ label, value, icon: Icon, tone }) => (
+                        <Card key={label}>
+                            <CardContent className="flex items-center gap-4">
+                                <div
+                                    className={`flex size-10 shrink-0 items-center justify-center rounded-lg ${STAT_TONE_CLASSES[tone]}`}
+                                >
+                                    <Icon className="size-5" />
+                                </div>
+                                <div>
+                                    <p className="text-2xl font-semibold">
+                                        {value}
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">
+                                        {label}
+                                    </p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    ))}
                 </div>
+
+                <div className="grid gap-4 lg:grid-cols-3">
+                    <Card className="lg:col-span-2">
+                        <CardHeader className="flex-row items-center justify-between">
+                            <CardTitle>Recent cases</CardTitle>
+                            <Badge variant="secondary">
+                                {RECENT_CASES.length}
+                            </Badge>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="border-b text-left text-muted-foreground">
+                                            <th className="py-2 pr-4 font-medium">
+                                                Patient
+                                            </th>
+                                            <th className="py-2 pr-4 font-medium">
+                                                Remedy
+                                            </th>
+                                            <th className="py-2 pr-4 font-medium">
+                                                Diagnosis
+                                            </th>
+                                            <th className="py-2 pr-4 font-medium">
+                                                Date
+                                            </th>
+                                            <th className="py-2 font-medium">
+                                                Status
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {RECENT_CASES.map((c) => (
+                                            <tr
+                                                key={c.patient}
+                                                className="border-b last:border-0"
+                                            >
+                                                <td className="py-2 pr-4 font-medium">
+                                                    {c.patient}
+                                                </td>
+                                                <td className="py-2 pr-4 text-muted-foreground">
+                                                    {c.remedy}
+                                                </td>
+                                                <td className="py-2 pr-4 text-muted-foreground">
+                                                    {c.diagnosis}
+                                                </td>
+                                                <td className="py-2 pr-4 text-muted-foreground">
+                                                    {c.date}
+                                                </td>
+                                                <td className="py-2">
+                                                    <span
+                                                        className={`rounded-full px-2 py-0.5 text-xs font-medium ${FOLLOW_UP_PILLS[c.status].className}`}
+                                                    >
+                                                        {
+                                                            FOLLOW_UP_PILLS[
+                                                                c.status
+                                                            ].label
+                                                        }
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p className="mt-3 text-xs text-muted-foreground">
+                                Demo data shown — patient records will appear
+                                here once case tracking is enabled.
+                            </p>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader className="flex-row items-center justify-between">
+                            <CardTitle>Today&apos;s follow-ups</CardTitle>
+                            <Badge variant="secondary">
+                                {TODAY_FOLLOW_UPS.length}
+                            </Badge>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
+                            {TODAY_FOLLOW_UPS.map((c) => (
+                                <div
+                                    key={c.patient}
+                                    className="flex items-center justify-between gap-2"
+                                >
+                                    <div>
+                                        <p className="text-sm font-medium">
+                                            {c.patient}
+                                        </p>
+                                        <p className="text-xs text-muted-foreground">
+                                            {c.remedy}
+                                        </p>
+                                    </div>
+                                    <span
+                                        className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${FOLLOW_UP_PILLS[c.status].className}`}
+                                    >
+                                        {FOLLOW_UP_PILLS[c.status].label}
+                                    </span>
+                                </div>
+                            ))}
+                        </CardContent>
+                    </Card>
+                </div>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Quick actions</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                            {QUICK_ACTIONS.map(({ label, icon: Icon }) => (
+                                <button
+                                    key={label}
+                                    type="button"
+                                    disabled
+                                    className="flex items-center gap-3 rounded-lg border p-3 text-left opacity-60"
+                                >
+                                    <Icon className="size-5 text-muted-foreground" />
+                                    <span className="flex-1 text-sm font-medium">
+                                        {label}
+                                    </span>
+                                    <Badge
+                                        variant="outline"
+                                        className="text-[10px]"
+                                    >
+                                        Soon
+                                    </Badge>
+                                </button>
+                            ))}
+
+                            <Link
+                                href={showSubscription()}
+                                className="flex items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-accent"
+                            >
+                                <CreditCard className="size-5 text-primary" />
+                                <span className="text-sm font-medium">
+                                    Subscription
+                                </span>
+                            </Link>
+
+                            {workspace?.type === 'clinic' && (
+                                <Link
+                                    href={showMembers()}
+                                    className="flex items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-accent"
+                                >
+                                    <UsersRound className="size-5 text-primary" />
+                                    <span className="text-sm font-medium">
+                                        Clinic members
+                                    </span>
+                                </Link>
+                            )}
+
+                            {pendingInvitationsCount > 0 && (
+                                <Link
+                                    href={showInvitations()}
+                                    className="flex items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-accent"
+                                >
+                                    <Mail className="size-5 text-primary" />
+                                    <span className="text-sm font-medium">
+                                        Clinic invitations (
+                                        {pendingInvitationsCount})
+                                    </span>
+                                </Link>
+                            )}
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Analysis tools</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                            {ANALYSIS_TOOLS.map(
+                                ({ label, description, icon: Icon, tint }) => (
+                                    <div
+                                        key={label}
+                                        className="flex items-start gap-3 rounded-lg border p-3 opacity-75"
+                                    >
+                                        <div
+                                            className={`flex size-9 shrink-0 items-center justify-center rounded-lg ${tint}`}
+                                        >
+                                            <Icon className="size-4.5" />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-medium">
+                                                {label}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ),
+                            )}
+                        </div>
+                        <p className="mt-3 text-xs text-muted-foreground">
+                            Coming soon — homeopathic analysis tools for your
+                            practice.
+                        </p>
+                    </CardContent>
+                </Card>
             </div>
         </>
     );

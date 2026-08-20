@@ -13,6 +13,12 @@
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
+    --font-instrument: 'Instrument Sans', var(--font-sans);
+    --font-inter: 'Inter', var(--font-sans);
+    --font-lora: 'Lora', ui-serif, Georgia, serif;
+    --font-jetbrains-mono:
+        'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
@@ -132,6 +138,69 @@
     --sidebar-ring: oklch(0.439 0 0);
 }
 
+/* Accent color overrides, applied via data-accent on <html>. */
+[data-accent='teal'] {
+    --primary: oklch(0.51 0.09 179);
+    --sidebar-primary: oklch(0.51 0.09 179);
+    --sidebar-ring: oklch(0.51 0.09 179);
+    --ring: oklch(0.51 0.09 179);
+}
+
+[data-accent='blue'] {
+    --primary: oklch(0.55 0.22 258);
+    --sidebar-primary: oklch(0.55 0.22 258);
+    --sidebar-ring: oklch(0.55 0.22 258);
+    --ring: oklch(0.55 0.22 258);
+}
+
+[data-accent='purple'] {
+    --primary: oklch(0.54 0.24 293);
+    --sidebar-primary: oklch(0.54 0.24 293);
+    --sidebar-ring: oklch(0.54 0.24 293);
+    --ring: oklch(0.54 0.24 293);
+}
+
+[data-accent='orange'] {
+    --primary: oklch(0.65 0.19 43);
+    --sidebar-primary: oklch(0.65 0.19 43);
+    --sidebar-ring: oklch(0.65 0.19 43);
+    --ring: oklch(0.65 0.19 43);
+}
+
+[data-accent='rose'] {
+    --primary: oklch(0.59 0.22 15);
+    --sidebar-primary: oklch(0.59 0.22 15);
+    --sidebar-ring: oklch(0.59 0.22 15);
+    --ring: oklch(0.59 0.22 15);
+}
+
+[data-accent] {
+    --primary-foreground: oklch(0.985 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+}
+
+.dark[data-accent] {
+    --primary-foreground: oklch(0.145 0 0);
+    --sidebar-primary-foreground: oklch(0.145 0 0);
+}
+
+/* Font family, applied via data-font on <html>. */
+[data-font='instrument'] {
+    --app-font: var(--font-instrument);
+}
+
+[data-font='inter'] {
+    --app-font: var(--font-inter);
+}
+
+[data-font='lora'] {
+    --app-font: var(--font-lora);
+}
+
+[data-font='jetbrains-mono'] {
+    --app-font: var(--font-jetbrains-mono);
+}
+
 @layer base {
     * {
         @apply border-border;
@@ -139,5 +208,6 @@
 
     body {
         @apply bg-background text-foreground;
+        font-family: var(--app-font, var(--font-sans));
     }
 }
