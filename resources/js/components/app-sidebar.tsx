@@ -1,12 +1,20 @@
 import { Link, usePage } from '@inertiajs/react';
 import {
+    Bone,
     BookOpen,
+    Brain,
     CreditCard,
+    FileText,
+    Flame,
     FolderGit2,
     LayoutGrid,
     Mail,
+    Pill,
+    ScrollText,
     ShieldCheck,
+    Sparkles,
     Users,
+    UsersRound,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -23,10 +31,31 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { index as showAdminPayments } from '@/routes/admin/payments';
+import { index as showCases } from '@/routes/cases';
 import { index as showInvitations } from '@/routes/clinic/invitations';
 import { index as showMembers } from '@/routes/clinic/members';
+import { index as showPatients } from '@/routes/patients';
 import { show as showSubscription } from '@/routes/subscription';
+import {
+    acuteCases,
+    anatomy,
+    materiaMedica,
+    miasm,
+    organon,
+    repertory,
+    temperament,
+} from '@/routes/tools';
 import type { NavItem } from '@/types';
+
+const analysisToolItems: NavItem[] = [
+    { title: 'Repertory', href: repertory(), icon: BookOpen },
+    { title: 'Materia medica', href: materiaMedica(), icon: Pill },
+    { title: 'Miasm analysis', href: miasm(), icon: Brain },
+    { title: 'Temperament', href: temperament(), icon: Sparkles },
+    { title: 'Acute cases', href: acuteCases(), icon: Flame },
+    { title: 'Organon', href: organon(), icon: ScrollText },
+    { title: 'Anatomy', href: anatomy(), icon: Bone },
+];
 
 const footerNavItems: NavItem[] = [
     {
@@ -51,6 +80,21 @@ export function AppSidebar() {
             icon: LayoutGrid,
         },
         {
+            title: 'Patients',
+            href: showPatients(),
+            icon: Users,
+        },
+        {
+            title: 'Cases',
+            href: showCases(),
+            icon: FileText,
+        },
+        {
+            title: 'Analysis tools',
+            icon: BookOpen,
+            items: analysisToolItems,
+        },
+        {
             title: 'সাবস্ক্রিপশন',
             href: showSubscription(),
             icon: CreditCard,
@@ -69,7 +113,7 @@ export function AppSidebar() {
         mainNavItems.push({
             title: 'ক্লিনিক সদস্য',
             href: showMembers(),
-            icon: Users,
+            icon: UsersRound,
         });
     }
 
