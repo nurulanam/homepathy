@@ -20,17 +20,17 @@ export default function Appearance() {
                 />
 
                 <div className="space-y-2">
-                    <h2 className="text-sm font-medium">Theme</h2>
+                    <h2 className="text-sm font-medium">থিম</h2>
                     <AppearanceTabs />
                 </div>
 
                 <div className="space-y-2">
-                    <h2 className="text-sm font-medium">Accent color</h2>
+                    <h2 className="text-sm font-medium">অ্যাকসেন্ট রঙ</h2>
                     <AccentColorPicker />
                 </div>
 
                 <div className="space-y-2">
-                    <h2 className="text-sm font-medium">Font</h2>
+                    <h2 className="text-sm font-medium">ফন্ট</h2>
                     <FontFamilyPicker />
                 </div>
             </div>

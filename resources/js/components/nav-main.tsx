@@ -22,7 +22,7 @@ const ACTIVE_ITEM_CLASSES =
     'border-l-2 border-transparent data-[active=true]:border-sidebar-primary data-[active=true]:bg-sidebar-primary/10 data-[active=true]:text-sidebar-primary';
 
 export function NavMain({
-    label = 'Platform',
+    label = 'মূল মেনু',
     items = [],
 }: {
     label?: string;

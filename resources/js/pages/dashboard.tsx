@@ -31,16 +31,16 @@ const STAT_CARDS: {
     icon: ComponentType<{ className?: string }>;
     tone: 'primary' | 'blue' | 'amber' | 'rose';
 }[] = [
-    { label: 'Total patients', value: '128', icon: Users, tone: 'primary' },
-    { label: 'Active cases', value: '34', icon: FileText, tone: 'blue' },
+    { label: 'মোট রোগী', value: '128', icon: Users, tone: 'primary' },
+    { label: 'সক্রিয় কেস', value: '34', icon: FileText, tone: 'blue' },
     {
-        label: 'Follow-ups due today',
+        label: 'আজকের ফলোআপ',
         value: '5',
         icon: CalendarClock,
         tone: 'amber',
     },
     {
-        label: 'Overdue follow-ups',
+        label: 'বিলম্বিত ফলোআপ',
         value: '2',
         icon: AlertTriangle,
         tone: 'rose',
@@ -60,16 +60,16 @@ const FOLLOW_UP_PILLS: Record<
     FollowUpStatus,
     { label: string; className: string }
 > = {
-    today: { label: 'Today', className: 'bg-primary/10 text-primary' },
+    today: { label: 'আজ', className: 'bg-primary/10 text-primary' },
     overdue: {
-        label: 'Overdue',
+        label: 'বিলম্বিত',
         className: 'bg-rose-500/10 text-rose-600 dark:text-rose-400',
     },
     upcoming: {
-        label: 'Upcoming',
+        label: 'আসন্ন',
         className: 'bg-sky-500/10 text-sky-600 dark:text-sky-400',
     },
-    done: { label: 'Done', className: 'bg-muted text-muted-foreground' },
+    done: { label: 'সম্পন্ন', className: 'bg-muted text-muted-foreground' },
 };
 
 const RECENT_CASES: {
@@ -83,42 +83,42 @@ const RECENT_CASES: {
         patient: 'রহিম উদ্দিন',
         remedy: 'Sulphur 200',
         date: 'Aug 18, 2026',
-        diagnosis: 'Chronic skin eruption',
+        diagnosis: 'দীর্ঘস্থায়ী চর্মরোগ',
         status: 'today',
     },
     {
         patient: 'ফাতেমা বেগম',
         remedy: 'Nux Vomica 30',
         date: 'Aug 15, 2026',
-        diagnosis: 'Acidity, irritability',
+        diagnosis: 'অম্লতা, খিটখিটে মেজাজ',
         status: 'overdue',
     },
     {
         patient: 'কামাল হোসেন',
         remedy: 'Pulsatilla 200',
         date: 'Aug 20, 2026',
-        diagnosis: 'Recurrent cold',
+        diagnosis: 'বারবার ঠান্ডা লাগা',
         status: 'upcoming',
     },
     {
         patient: 'নাসরিন আক্তার',
         remedy: 'Arsenicum Album 30',
         date: 'Aug 10, 2026',
-        diagnosis: 'Anxiety, restlessness',
+        diagnosis: 'উদ্বেগ, অস্থিরতা',
         status: 'done',
     },
     {
         patient: 'সালমা খাতুন',
         remedy: 'Calcarea Carbonica 200',
         date: 'Aug 9, 2026',
-        diagnosis: 'Delayed milestones',
+        diagnosis: 'বিকাশে বিলম্ব',
         status: 'done',
     },
     {
         patient: 'ইব্রাহিম মিয়া',
         remedy: 'Lycopodium 1M',
         date: 'Aug 6, 2026',
-        diagnosis: 'Digestive weakness',
+        diagnosis: 'পরিপাকজনিত দুর্বলতা',
         status: 'done',
     },
 ];
@@ -131,10 +131,10 @@ const QUICK_ACTIONS: {
     label: string;
     icon: ComponentType<{ className?: string }>;
 }[] = [
-    { label: 'New patient', icon: UserPlus },
-    { label: 'New case', icon: FilePlus2 },
-    { label: 'Repertory', icon: BookOpen },
-    { label: 'Materia medica', icon: Pill },
+    { label: 'নতুন রোগী', icon: UserPlus },
+    { label: 'নতুন কেস', icon: FilePlus2 },
+    { label: 'রিপার্টরি', icon: BookOpen },
+    { label: 'মেটেরিয়া মেডিকা', icon: Pill },
 ];
 
 const ANALYSIS_TOOLS: {
@@ -144,44 +144,44 @@ const ANALYSIS_TOOLS: {
     tint: string;
 }[] = [
     {
-        label: 'Repertory',
-        description: 'Rubric-based remedy search',
+        label: 'রিপার্টরি',
+        description: 'রুব্রিক ভিত্তিক রেমেডি অনুসন্ধান',
         icon: BookOpen,
         tint: 'bg-cyan-500/15 text-cyan-500',
     },
     {
-        label: 'Materia medica',
-        description: 'Remedy reference library',
+        label: 'মেটেরিয়া মেডিকা',
+        description: 'রেমেডি রেফারেন্স লাইব্রেরি',
         icon: Pill,
         tint: 'bg-violet-500/15 text-violet-400',
     },
     {
-        label: 'Miasm analysis',
-        description: 'Psora, sycosis, syphilis',
+        label: 'মায়াজম বিশ্লেষণ',
+        description: 'সোরা, সাইকোসিস, সিফিলিস',
         icon: Brain,
         tint: 'bg-indigo-500/15 text-indigo-400',
     },
     {
-        label: 'Temperament',
-        description: 'Constitutional typing',
+        label: 'টেম্পারামেন্ট',
+        description: 'সাংবিধানিক ধরণ নির্ণয়',
         icon: Sparkles,
         tint: 'bg-amber-500/15 text-amber-500',
     },
     {
-        label: 'Acute cases',
-        description: 'Rapid-onset prescribing',
+        label: 'একিউট কেস',
+        description: 'আকস্মিক রোগের চিকিৎসা',
         icon: Flame,
         tint: 'bg-rose-500/15 text-rose-500',
     },
     {
-        label: 'Organon',
-        description: 'Aphorism reference',
+        label: 'অর্গানন',
+        description: 'অ্যাফোরিজম রেফারেন্স',
         icon: ScrollText,
         tint: 'bg-emerald-500/15 text-emerald-500',
     },
     {
-        label: 'Anatomy',
-        description: 'Rubric-linked anatomy',
+        label: 'অ্যানাটমি',
+        description: 'রুব্রিক সংযুক্ত অ্যানাটমি',
         icon: Bone,
         tint: 'bg-slate-500/15 text-slate-400',
     },
@@ -189,18 +189,18 @@ const ANALYSIS_TOOLS: {
 
 function getGreeting(hour: number): string {
     if (hour < 12) {
-        return 'Good morning';
+        return 'শুভ সকাল';
     }
 
     if (hour < 17) {
-        return 'Good afternoon';
+        return 'শুভ অপরাহ্ণ';
     }
 
     if (hour < 20) {
-        return 'Good evening';
+        return 'শুভ সন্ধ্যা';
     }
 
-    return 'Good night';
+    return 'শুভ রাত্রি';
 }
 
 export default function Dashboard() {
@@ -210,11 +210,11 @@ export default function Dashboard() {
 
     return (
         <>
-            <Head title="Dashboard" />
-            <div className="flex flex-1 flex-col gap-6 p-4">
+            <Head title="ড্যাশবোর্ড" />
+            <div className="flex flex-1 flex-col gap-6">
                 <div className="relative overflow-hidden rounded-xl border bg-linear-to-br from-primary/15 via-primary/5 to-transparent p-6">
                     <p className="text-sm text-muted-foreground">
-                        {today.toLocaleDateString(undefined, {
+                        {today.toLocaleDateString('bn-BD', {
                             weekday: 'long',
                             year: 'numeric',
                             month: 'long',
@@ -226,8 +226,8 @@ export default function Dashboard() {
                     </h1>
                     <p className="mt-1 text-sm text-muted-foreground">
                         {workspace?.type === 'clinic'
-                            ? "Here's what's happening across your clinic today."
-                            : "Here's what's happening in your practice today."}
+                            ? 'আজ আপনার ক্লিনিকে যা ঘটছে।'
+                            : 'আজ আপনার প্র্যাকটিসে যা ঘটছে।'}
                     </p>
                 </div>
 
@@ -256,7 +256,7 @@ export default function Dashboard() {
                 <div className="grid gap-4 lg:grid-cols-3">
                     <Card className="lg:col-span-2">
                         <CardHeader className="flex-row items-center justify-between">
-                            <CardTitle>Recent cases</CardTitle>
+                            <CardTitle>সাম্প্রতিক কেস</CardTitle>
                             <Badge variant="secondary">
                                 {RECENT_CASES.length}
                             </Badge>
@@ -267,19 +267,19 @@ export default function Dashboard() {
                                     <thead>
                                         <tr className="border-b text-left text-muted-foreground">
                                             <th className="py-2 pr-4 font-medium">
-                                                Patient
+                                                রোগী
                                             </th>
                                             <th className="py-2 pr-4 font-medium">
-                                                Remedy
+                                                রেমেডি
                                             </th>
                                             <th className="py-2 pr-4 font-medium">
-                                                Diagnosis
+                                                রোগ নির্ণয়
                                             </th>
                                             <th className="py-2 pr-4 font-medium">
-                                                Date
+                                                তারিখ
                                             </th>
                                             <th className="py-2 font-medium">
-                                                Status
+                                                অবস্থা
                                             </th>
                                         </tr>
                                     </thead>
@@ -318,15 +318,15 @@ export default function Dashboard() {
                                 </table>
                             </div>
                             <p className="mt-3 text-xs text-muted-foreground">
-                                Demo data shown — patient records will appear
-                                here once case tracking is enabled.
+                                নমুনা তথ্য দেখানো হচ্ছে — কেস ট্র্যাকিং চালু
+                                হলে রোগীর তথ্য এখানে দেখা যাবে।
                             </p>
                         </CardContent>
                     </Card>
 
                     <Card>
                         <CardHeader className="flex-row items-center justify-between">
-                            <CardTitle>Today&apos;s follow-ups</CardTitle>
+                            <CardTitle>আজকের ফলোআপ</CardTitle>
                             <Badge variant="secondary">
                                 {TODAY_FOLLOW_UPS.length}
                             </Badge>
@@ -358,7 +358,7 @@ export default function Dashboard() {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Quick actions</CardTitle>
+                        <CardTitle>দ্রুত কাজ</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -377,7 +377,7 @@ export default function Dashboard() {
                                         variant="outline"
                                         className="text-[10px]"
                                     >
-                                        Soon
+                                        শীঘ্রই
                                     </Badge>
                                 </button>
                             ))}
@@ -388,7 +388,7 @@ export default function Dashboard() {
                             >
                                 <CreditCard className="size-5 text-primary" />
                                 <span className="text-sm font-medium">
-                                    Subscription
+                                    সাবস্ক্রিপশন
                                 </span>
                             </Link>
 
@@ -399,7 +399,7 @@ export default function Dashboard() {
                                 >
                                     <UsersRound className="size-5 text-primary" />
                                     <span className="text-sm font-medium">
-                                        Clinic members
+                                        ক্লিনিক সদস্য
                                     </span>
                                 </Link>
                             )}
@@ -411,7 +411,7 @@ export default function Dashboard() {
                                 >
                                     <Mail className="size-5 text-primary" />
                                     <span className="text-sm font-medium">
-                                        Clinic invitations (
+                                        ক্লিনিক আমন্ত্রণ (
                                         {pendingInvitationsCount})
                                     </span>
                                 </Link>
@@ -422,7 +422,7 @@ export default function Dashboard() {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Analysis tools</CardTitle>
+                        <CardTitle>বিশ্লেষণ টুলস</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -450,8 +450,8 @@ export default function Dashboard() {
                             )}
                         </div>
                         <p className="mt-3 text-xs text-muted-foreground">
-                            Coming soon — homeopathic analysis tools for your
-                            practice.
+                            শীঘ্রই আসছে — আপনার প্র্যাকটিসের জন্য
+                            হোমিওপ্যাথিক বিশ্লেষণ টুলস।
                         </p>
                     </CardContent>
                 </Card>
@@ -463,7 +463,7 @@ export default function Dashboard() {
 Dashboard.layout = {
     breadcrumbs: [
         {
-            title: 'Dashboard',
+            title: 'ড্যাশবোর্ড',
             href: dashboard(),
         },
     ],

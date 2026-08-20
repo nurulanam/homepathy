@@ -14,12 +14,12 @@ type Patient = { id: number; name: string };
 export default function CasesCreate({ patients }: { patients: Patient[] }) {
     return (
         <>
-            <Head title="New case" />
+            <Head title="নতুন কেস" />
 
             <div className="max-w-xl space-y-6">
                 <Heading
-                    title="New case"
-                    description="Record a new case for a patient."
+                    title="নতুন কেস"
+                    description="একজন রোগীর জন্য নতুন কেস রেকর্ড করুন।"
                 />
 
                 <Card>
@@ -29,7 +29,7 @@ export default function CasesCreate({ patients }: { patients: Patient[] }) {
                                 <>
                                     <div className="grid gap-2">
                                         <Label htmlFor="patient_id">
-                                            Patient
+                                            রোগী
                                         </Label>
                                         <select
                                             id="patient_id"
@@ -39,7 +39,7 @@ export default function CasesCreate({ patients }: { patients: Patient[] }) {
                                             className="h-9 rounded-md border border-input bg-transparent px-3 text-sm"
                                         >
                                             <option value="" disabled>
-                                                Select a patient
+                                                একজন রোগী নির্বাচন করুন
                                             </option>
                                             {patients.map((patient) => (
                                                 <option
@@ -56,7 +56,9 @@ export default function CasesCreate({ patients }: { patients: Patient[] }) {
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="title">Title</Label>
+                                        <Label htmlFor="title">
+                                            শিরোনাম
+                                        </Label>
                                         <Input
                                             id="title"
                                             name="title"
@@ -67,7 +69,7 @@ export default function CasesCreate({ patients }: { patients: Patient[] }) {
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="notes">Notes</Label>
+                                        <Label htmlFor="notes">নোট</Label>
                                         <textarea
                                             id="notes"
                                             name="notes"
@@ -78,7 +80,7 @@ export default function CasesCreate({ patients }: { patients: Patient[] }) {
                                     </div>
 
                                     <Button type="submit" disabled={processing}>
-                                        Save case
+                                        কেস সংরক্ষণ করুন
                                     </Button>
                                 </>
                             )}
@@ -92,8 +94,8 @@ export default function CasesCreate({ patients }: { patients: Patient[] }) {
 
 CasesCreate.layout = {
     breadcrumbs: [
-        { title: 'Dashboard', href: dashboard() },
-        { title: 'Cases', href: index() },
-        { title: 'New case', href: create() },
+        { title: 'ড্যাশবোর্ড', href: dashboard() },
+        { title: 'কেস', href: index() },
+        { title: 'নতুন কেস', href: create() },
     ],
 };

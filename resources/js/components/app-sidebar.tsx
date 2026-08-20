@@ -48,13 +48,13 @@ import {
 import type { NavItem } from '@/types';
 
 const analysisToolItems: NavItem[] = [
-    { title: 'Repertory', href: repertory(), icon: BookOpen },
-    { title: 'Materia medica', href: materiaMedica(), icon: Pill },
-    { title: 'Miasm analysis', href: miasm(), icon: Brain },
-    { title: 'Temperament', href: temperament(), icon: Sparkles },
-    { title: 'Acute cases', href: acuteCases(), icon: Flame },
-    { title: 'Organon', href: organon(), icon: ScrollText },
-    { title: 'Anatomy', href: anatomy(), icon: Bone },
+    { title: 'রিপার্টরি', href: repertory(), icon: BookOpen },
+    { title: 'মেটেরিয়া মেডিকা', href: materiaMedica(), icon: Pill },
+    { title: 'মায়াজম বিশ্লেষণ', href: miasm(), icon: Brain },
+    { title: 'টেম্পারামেন্ট', href: temperament(), icon: Sparkles },
+    { title: 'একিউট কেস', href: acuteCases(), icon: Flame },
+    { title: 'অর্গানন', href: organon(), icon: ScrollText },
+    { title: 'অ্যানাটমি', href: anatomy(), icon: Bone },
 ];
 
 const footerNavItems: NavItem[] = [
@@ -75,22 +75,22 @@ export function AppSidebar() {
 
     const mainNavItems: NavItem[] = [
         {
-            title: 'Dashboard',
+            title: 'ড্যাশবোর্ড',
             href: dashboard(),
             icon: LayoutGrid,
         },
         {
-            title: 'Patients',
+            title: 'রোগী',
             href: showPatients(),
             icon: Users,
         },
         {
-            title: 'Cases',
+            title: 'কেস',
             href: showCases(),
             icon: FileText,
         },
         {
-            title: 'Analysis tools',
+            title: 'বিশ্লেষণ টুলস',
             icon: BookOpen,
             items: analysisToolItems,
         },

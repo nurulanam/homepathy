@@ -49,7 +49,7 @@ class PatientController extends Controller
             'created_by' => $request->user()->id,
         ]);
 
-        Inertia::flash('toast', ['type' => 'success', 'message' => __('Patient added.')]);
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('রোগী যুক্ত করা হয়েছে।')]);
 
         return to_route('patients.index');
     }

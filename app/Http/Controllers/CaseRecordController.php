@@ -51,7 +51,7 @@ class CaseRecordController extends Controller
             'created_by' => $request->user()->id,
         ]);
 
-        Inertia::flash('toast', ['type' => 'success', 'message' => __('Case added.')]);
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('কেস যুক্ত করা হয়েছে।')]);
 
         return to_route('cases.index');
     }

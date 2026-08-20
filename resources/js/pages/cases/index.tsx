@@ -23,20 +23,20 @@ export default function CasesIndex({
 }) {
     return (
         <>
-            <Head title="Cases" />
+            <Head title="কেস" />
 
             <div className="space-y-6">
                 <div className="flex flex-wrap items-start justify-between gap-4">
                     <Heading
-                        title="Cases"
-                        description={`${cases.length} case${cases.length === 1 ? '' : 's'} recorded`}
+                        title="কেস"
+                        description={`${cases.length}টি কেস রেকর্ড করা হয়েছে`}
                     />
 
                     {canCreate && (
                         <Button asChild>
                             <Link href={create()}>
                                 <FilePlus2 />
-                                New case
+                                নতুন কেস
                             </Link>
                         </Button>
                     )}
@@ -46,7 +46,7 @@ export default function CasesIndex({
                     <CardContent className="p-0">
                         {cases.length === 0 ? (
                             <p className="p-6 text-sm text-muted-foreground">
-                                No cases yet.
+                                এখনো কোনো কেস নেই।
                             </p>
                         ) : (
                             <div className="overflow-x-auto">
@@ -54,13 +54,13 @@ export default function CasesIndex({
                                     <thead className="bg-muted/50 text-left text-muted-foreground">
                                         <tr>
                                             <th className="px-4 py-3 font-medium">
-                                                Patient
+                                                রোগী
                                             </th>
                                             <th className="px-4 py-3 font-medium">
-                                                Title
+                                                শিরোনাম
                                             </th>
                                             <th className="px-4 py-3 font-medium">
-                                                Added
+                                                যোগ করা হয়েছে
                                             </th>
                                         </tr>
                                     </thead>
@@ -93,7 +93,7 @@ export default function CasesIndex({
 
 CasesIndex.layout = {
     breadcrumbs: [
-        { title: 'Dashboard', href: dashboard() },
-        { title: 'Cases', href: index() },
+        { title: 'ড্যাশবোর্ড', href: dashboard() },
+        { title: 'কেস', href: index() },
     ],
 };

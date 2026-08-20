@@ -12,12 +12,12 @@ import { create, index } from '@/routes/patients';
 export default function PatientsCreate() {
     return (
         <>
-            <Head title="New patient" />
+            <Head title="নতুন রোগী" />
 
             <div className="max-w-xl space-y-6">
                 <Heading
-                    title="New patient"
-                    description="Add a patient to this workspace."
+                    title="নতুন রোগী"
+                    description="এই ওয়ার্কস্পেসে একজন রোগী যুক্ত করুন।"
                 />
 
                 <Card>
@@ -26,7 +26,7 @@ export default function PatientsCreate() {
                             {({ processing, errors }) => (
                                 <>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="name">Name</Label>
+                                        <Label htmlFor="name">নাম</Label>
                                         <Input
                                             id="name"
                                             name="name"
@@ -37,13 +37,13 @@ export default function PatientsCreate() {
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="phone">Phone</Label>
+                                        <Label htmlFor="phone">ফোন</Label>
                                         <Input id="phone" name="phone" />
                                         <InputError message={errors.phone} />
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="notes">Notes</Label>
+                                        <Label htmlFor="notes">নোট</Label>
                                         <textarea
                                             id="notes"
                                             name="notes"
@@ -54,7 +54,7 @@ export default function PatientsCreate() {
                                     </div>
 
                                     <Button type="submit" disabled={processing}>
-                                        Save patient
+                                        রোগী সংরক্ষণ করুন
                                     </Button>
                                 </>
                             )}
@@ -68,8 +68,8 @@ export default function PatientsCreate() {
 
 PatientsCreate.layout = {
     breadcrumbs: [
-        { title: 'Dashboard', href: dashboard() },
-        { title: 'Patients', href: index() },
-        { title: 'New patient', href: create() },
+        { title: 'ড্যাশবোর্ড', href: dashboard() },
+        { title: 'রোগী', href: index() },
+        { title: 'নতুন রোগী', href: create() },
     ],
 };

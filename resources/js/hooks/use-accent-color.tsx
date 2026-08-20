@@ -3,11 +3,11 @@ import { createDatasetPreference } from '@/hooks/use-dataset-preference';
 export type AccentColor = 'teal' | 'blue' | 'purple' | 'orange' | 'rose';
 
 export const ACCENT_COLORS: { value: AccentColor; label: string }[] = [
-    { value: 'teal', label: 'Teal' },
-    { value: 'blue', label: 'Blue' },
-    { value: 'purple', label: 'Purple' },
-    { value: 'orange', label: 'Orange' },
-    { value: 'rose', label: 'Rose' },
+    { value: 'teal', label: 'টিল' },
+    { value: 'blue', label: 'নীল' },
+    { value: 'purple', label: 'বেগুনি' },
+    { value: 'orange', label: 'কমলা' },
+    { value: 'rose', label: 'গোলাপি' },
 ];
 
 const accentColorPreference = createDatasetPreference<AccentColor>({

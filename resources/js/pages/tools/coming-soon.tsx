@@ -15,13 +15,13 @@ export default function ToolComingSoon({
         <>
             <Head title={title} />
 
-            <div className="flex flex-1 items-center justify-center p-4">
+            <div className="flex flex-1 items-center justify-center">
                 <Card className="max-w-md text-center">
                     <CardContent className="space-y-3">
                         <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
                             <Sparkles className="size-6" />
                         </div>
-                        <Badge variant="secondary">Coming soon</Badge>
+                        <Badge variant="secondary">শীঘ্রই আসছে</Badge>
                         <h1 className="text-xl font-semibold">{title}</h1>
                         <p className="text-sm text-muted-foreground">
                             {description}
@@ -30,7 +30,7 @@ export default function ToolComingSoon({
                             href={dashboard()}
                             className="inline-block text-sm text-primary hover:underline"
                         >
-                            Back to dashboard
+                            ড্যাশবোর্ডে ফিরুন
                         </Link>
                     </CardContent>
                 </Card>
@@ -40,5 +40,5 @@ export default function ToolComingSoon({
 }
 
 ToolComingSoon.layout = {
-    breadcrumbs: [{ title: 'Dashboard', href: dashboard() }],
+    breadcrumbs: [{ title: 'ড্যাশবোর্ড', href: dashboard() }],
 };
