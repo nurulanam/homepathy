@@ -8,45 +8,26 @@ import {
     Users,
 } from 'lucide-react';
 import type { ComponentType } from 'react';
+import AppLogoIcon from '@/components/app-logo-icon';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { dashboard, login, register } from '@/routes';
+import { dashboard, home, login, register } from '@/routes';
 
-const FEATURES: {
+const BRAND_FEATURES = [
+    { icon: Users, label: 'রোগীর তথ্য ও কেস হিস্ট্রি এক জায়গায়' },
+    { icon: BookOpen, label: 'রিপার্টরি ও মেটেরিয়া মেডিকা রেফারেন্স' },
+    { icon: FlaskConical, label: 'প্রেসক্রিপশন ও ফলোআপ ব্যবস্থাপনা' },
+];
+
+const CONTENT_FEATURES: {
     icon: ComponentType<{ className?: string }>;
-    title: string;
-    description: string;
+    label: string;
 }[] = [
-    {
-        icon: Users,
-        title: 'রোগী ব্যবস্থাপনা',
-        description: 'রোগীর তথ্য, যোগাযোগ ও ইতিহাস এক জায়গায় সংরক্ষণ করুন।',
-    },
-    {
-        icon: FlaskConical,
-        title: 'কেস ও প্রেসক্রিপশন',
-        description: 'প্রতিটি কেস রেকর্ড করুন এবং রেমেডি ট্র্যাক করুন।',
-    },
-    {
-        icon: CalendarClock,
-        title: 'ফলোআপ রিমাইন্ডার',
-        description: 'আজকের ও বিলম্বিত ফলোআপ এক নজরে দেখুন।',
-    },
-    {
-        icon: BookOpen,
-        title: 'বিশ্লেষণ টুলস',
-        description: 'রিপার্টরি, মেটেরিয়া মেডিকা ও মায়াজম বিশ্লেষণ।',
-    },
-    {
-        icon: ShieldCheck,
-        title: 'ক্লিনিক টিম',
-        description: 'সহকারী ও রিসেপশনিস্টদের নিয়ে ক্লিনিক পরিচালনা করুন।',
-    },
-    {
-        icon: Leaf,
-        title: 'প্রাকৃতিক চিকিৎসা',
-        description: 'হোমিওপ্যাথিক প্র্যাকটিসের জন্য বিশেষভাবে তৈরি।',
-    },
+    { icon: Users, label: 'রোগী ব্যবস্থাপনা' },
+    { icon: FlaskConical, label: 'কেস ও প্রেসক্রিপশন' },
+    { icon: CalendarClock, label: 'ফলোআপ রিমাইন্ডার' },
+    { icon: BookOpen, label: 'বিশ্লেষণ টুলস' },
+    { icon: ShieldCheck, label: 'ক্লিনিক টিম' },
+    { icon: Leaf, label: 'প্রাকৃতিক চিকিৎসা' },
 ];
 
 export default function Welcome() {
@@ -55,15 +36,54 @@ export default function Welcome() {
     return (
         <>
             <Head title="স্বাগতম" />
-            <div className="flex min-h-svh flex-col bg-background text-foreground">
-                <header className="border-b">
-                    <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
-                        <div className="flex items-center gap-2 font-medium">
-                            <Leaf className="size-5 text-primary" />
-                            {name}
-                        </div>
 
-                        <nav className="flex items-center gap-3 text-sm">
+            <div className="relative grid min-h-svh lg:grid-cols-2">
+                <div className="relative hidden flex-col justify-between overflow-hidden bg-linear-to-br from-primary via-primary/90 to-primary/70 p-10 text-primary-foreground lg:flex">
+                    <div className="pointer-events-none absolute -top-24 -right-24 size-72 rounded-full bg-white/10" />
+                    <div className="pointer-events-none absolute -bottom-32 -left-16 size-80 rounded-full bg-white/10" />
+
+                    <div className="relative z-10 flex items-center gap-2 text-lg font-medium">
+                        <Leaf className="size-7" />
+                        {name}
+                    </div>
+
+                    <div className="relative z-10 space-y-6">
+                        <p className="text-2xl font-medium text-balance">
+                            প্রাকৃতিক চিকিৎসায় আধুনিক ব্যবস্থাপনা
+                        </p>
+                        <ul className="space-y-3 text-sm text-primary-foreground/90">
+                            {BRAND_FEATURES.map(({ icon: Icon, label }) => (
+                                <li
+                                    key={label}
+                                    className="flex items-center gap-3"
+                                >
+                                    <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white/15">
+                                        <Icon className="size-4" />
+                                    </span>
+                                    {label}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <p className="relative z-10 text-xs text-primary-foreground/70">
+                        হোমিওপ্যাথিক প্র্যাকটিশনারদের জন্য তৈরি
+                    </p>
+                </div>
+
+                <div className="flex flex-col bg-background">
+                    <div className="flex items-center justify-between p-6">
+                        <Link
+                            href={home()}
+                            className="flex items-center gap-2 font-medium lg:hidden"
+                        >
+                            <div className="flex size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+                                <AppLogoIcon className="size-4.5" />
+                            </div>
+                            {name}
+                        </Link>
+
+                        <nav className="ml-auto flex items-center gap-3 text-sm">
                             {auth.user ? (
                                 <Button asChild size="sm">
                                     <Link href={dashboard()}>
@@ -87,67 +107,71 @@ export default function Welcome() {
                             )}
                         </nav>
                     </div>
-                </header>
 
-                <main className="flex-1">
-                    <section className="mx-auto max-w-5xl px-6 py-20 text-center">
-                        <p className="text-sm font-medium text-primary">
-                            হোমিওপ্যাথিক প্র্যাকটিশনারদের জন্য তৈরি
-                        </p>
-                        <h1 className="mt-4 text-3xl font-semibold text-balance sm:text-4xl">
-                            প্রাকৃতিক চিকিৎসায় আধুনিক ব্যবস্থাপনা
-                        </h1>
-                        <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-                            রোগীর তথ্য, কেস হিস্ট্রি, প্রেসক্রিপশন ও ফলোআপ —
-                            সবকিছু এক জায়গায় সহজে পরিচালনা করুন।
-                        </p>
-                        <div className="mt-8 flex items-center justify-center gap-3">
-                            {auth.user ? (
-                                <Button asChild size="lg">
-                                    <Link href={dashboard()}>
-                                        ড্যাশবোর্ডে যান
-                                    </Link>
-                                </Button>
-                            ) : (
-                                <>
-                                    <Button asChild size="lg">
-                                        <Link href={register()}>শুরু করুন</Link>
+                    <div className="flex flex-1 items-center justify-center p-6 md:p-10">
+                        <div className="w-full max-w-sm space-y-8">
+                            <div className="space-y-2 text-center">
+                                <h1 className="text-xl font-semibold text-balance">
+                                    আপনার হোমিওপ্যাথি প্র্যাকটিসের ডিজিটাল
+                                    সহায়ক
+                                </h1>
+                                <p className="text-sm text-balance text-muted-foreground">
+                                    রোগীর তথ্য, কেস হিস্ট্রি, প্রেসক্রিপশন ও
+                                    ফলোআপ — সবকিছু এক জায়গায় সহজে পরিচালনা
+                                    করুন।
+                                </p>
+                            </div>
+
+                            <div className="flex flex-col gap-3">
+                                {auth.user ? (
+                                    <Button asChild className="w-full">
+                                        <Link href={dashboard()}>
+                                            ড্যাশবোর্ডে যান
+                                        </Link>
                                     </Button>
-                                    <Button asChild size="lg" variant="outline">
-                                        <Link href={login()}>লগইন</Link>
-                                    </Button>
-                                </>
-                            )}
-                        </div>
-                    </section>
+                                ) : (
+                                    <>
+                                        <Button asChild className="w-full">
+                                            <Link href={register()}>
+                                                শুরু করুন
+                                            </Link>
+                                        </Button>
+                                        <Button
+                                            asChild
+                                            variant="outline"
+                                            className="w-full"
+                                        >
+                                            <Link href={login()}>লগইন</Link>
+                                        </Button>
+                                    </>
+                                )}
+                            </div>
 
-                    <section className="mx-auto max-w-5xl px-6 pb-20">
-                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            {FEATURES.map(
-                                ({ icon: Icon, title, description }) => (
-                                    <Card key={title}>
-                                        <CardContent className="space-y-2">
-                                            <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                                                <Icon className="size-4.5" />
-                                            </div>
-                                            <h2 className="font-medium">
-                                                {title}
-                                            </h2>
-                                            <p className="text-sm text-muted-foreground">
-                                                {description}
-                                            </p>
-                                        </CardContent>
-                                    </Card>
-                                ),
-                            )}
-                        </div>
-                    </section>
-                </main>
+                            <ul className="grid grid-cols-2 gap-3 text-sm">
+                                {CONTENT_FEATURES.map(
+                                    ({ icon: Icon, label }) => (
+                                        <li
+                                            key={label}
+                                            className="flex items-center gap-2 rounded-lg border p-3"
+                                        >
+                                            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                                                <Icon className="size-3.5" />
+                                            </span>
+                                            <span className="text-muted-foreground">
+                                                {label}
+                                            </span>
+                                        </li>
+                                    ),
+                                )}
+                            </ul>
 
-                <footer className="border-t py-6 text-center text-xs text-muted-foreground">
-                    শিক্ষা ও গবেষণার জন্য — {name} &copy;{' '}
-                    {new Date().getFullYear()}
-                </footer>
+                            <p className="text-center text-xs text-muted-foreground">
+                                শিক্ষা ও গবেষণার জন্য — {name} &copy;{' '}
+                                {new Date().getFullYear()}
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     );
