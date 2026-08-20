@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(vendor/bin/pint --format agent)",
+      "Bash(vendor/bin/pint --format agent app/Http/Controllers/WorkspaceMemberController.php app/Services/Workspace/WorkspaceService.php)"
+    ]
+  }
+}
